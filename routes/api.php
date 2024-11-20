@@ -13,5 +13,16 @@ Route::group('cliente', function() {
     Route::put('editar', 'ClienteController@editar');
     Route::delete('deletar', 'ClienteController@deletar');
 
-    Route::get('buscarvendas', 'ClienteController@buscarVendas');
+    Route::post('buscarvendas', 'ClienteController@buscarVendas');
+});
+
+Route::group('produto', function() {
+    Route::put('cadastrar', 'ProdutoController@cadastrar');
+    Route::get('buscar', 'ProdutoController@buscar');
+    Route::put('editar', 'ProdutoController@editar');
+    Route::delete('deletar', 'ProdutoController@deletar');
+});
+
+Route::group('venda', function() {
+    Route::put('cadastrar', 'VendaController@cadastrar');
 });
