@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ClienteService;
+use App\Services\VendaService;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -56,7 +57,7 @@ class ClienteController extends Controller
             'cpf' => 'required|string'
         ]);
 
-        $vendaService = new  VendaSer();
+        $vendaService = new VendaService();
 
         return $vendaService->buscar($request->all());
     }
