@@ -1,28 +1,37 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\VendaController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::group('usuario', function() {
-    Route::put('cadastrar', 'UsuarioController@cadastrar');
-    Route::post('login', 'UsuarioController@login');
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
+
+Route::prefix('usuario')->group(function() {
+    Route::put('cadastrar', [UsuarioController::class, 'cadastrar']);
+    Route::post('login', [UsuarioController::class, 'login']);
 });
 
-Route::group('cliente', function() {
-    Route::put('cadastrar', 'ClienteController@cadastrar');
-    Route::get('buscar', 'ClienteController@buscar');
-    Route::put('editar', 'ClienteController@editar');
-    Route::delete('deletar', 'ClienteController@deletar');
+Route::prefix('cliente')->group(function() {
+    Route::put('cadastrar', [ClienteController::class, 'cadastrar']);
+    Route::get('buscar', [ClienteController::class, 'buscar']);
+    Route::put('editar', [ClienteController::class, 'editar']);
+    Route::delete('deletar', [ClienteController::class, 'deletar']);
 
-    Route::post('buscarvendas', 'ClienteController@buscarVendas');
+    Route::post('buscarvendas', [ClienteController::class, 'buscarVendas']);
 });
 
-Route::group('produto', function() {
-    Route::put('cadastrar', 'ProdutoController@cadastrar');
-    Route::get('buscar', 'ProdutoController@buscar');
-    Route::put('editar', 'ProdutoController@editar');
-    Route::delete('deletar', 'ProdutoController@deletar');
+Route::prefix('produto')->group(function() {
+    Route::put('cadastrar', [ProdutoController::class, 'cadastrar']);
+    Route::get('buscar', [ProdutoController::class, 'buscar']);
+    Route::put('editar', [ProdutoController::class, 'editar']);
+    Route::delete('deletar', [ProdutoController::class, 'deletar']);
 });
 
-Route::group('venda', function() {
-    Route::put('cadastrar', 'VendaController@cadastrar');
+Route::prefix('venda')->group(function() {
+    Route::put('cadastrar', [VendaController::class, 'cadastrar']);
 });
