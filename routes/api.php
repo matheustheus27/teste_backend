@@ -35,3 +35,7 @@ Route::prefix('produto')->group(function() {
 Route::prefix('venda')->group(function() {
     Route::put('cadastrar', [VendaController::class, 'cadastrar']);
 });
+
+Route::get('/', function () {
+    return response()->json(['status' => true, 'mensagem' => 'Tudo Ok!'], 200);
+});

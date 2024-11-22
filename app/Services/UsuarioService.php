@@ -24,6 +24,7 @@ class UsuarioService
             ], 201);
         } catch(Exception $e)
         {
+            dd($e);
             return response()->json([
                 'status' => false,
                 'mensagem' => 'Falha ao cadastrar usuario!'

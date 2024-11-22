@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('vendas', function (Blueprint $table) {
             $table->id();
             $table->string('cliente');
-            $table->unsignedBigInteger('produto');
+            $table->string('produto');
             $table->integer('quantidade');
             $table->decimal('valor_unitario', 10, 2);
             $table->decimal('valor_total', 10, 2);
             $table->date('dt_compra');
             $table->timestamps();
 
-            $table->foreign('cliente')->references('cpf')->on('usuarios')->onDelete('cascade');
+            $table->foreign('cliente')->references('cpf')->on('clientes')->onDelete('cascade');
             $table->foreign('produto')->references('cod')->on('produtos')->onDelete('cascade');
         });
     }
