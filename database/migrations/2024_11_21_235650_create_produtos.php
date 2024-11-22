@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('descricao');
             $table->decimal('preco', 8, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

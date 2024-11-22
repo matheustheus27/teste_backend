@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('pais');
             $table->string('cep');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

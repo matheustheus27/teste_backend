@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('valor_total', 10, 2);
             $table->date('dt_compra');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('cliente')->references('cpf')->on('clientes')->onDelete('cascade');
             $table->foreign('produto')->references('cod')->on('produtos')->onDelete('cascade');
