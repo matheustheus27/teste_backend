@@ -4,16 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Services\ClienteService;
 use App\Services\VendaService;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
     public function cadastrar(Request $request)
     {
-        $request->validate([
-            'cpf' => 'required|string|unique:clientes,cpf',
-            'nome' => 'required|string'
-        ]);
+        try {
+            $request->validate([
+                'cpf' => 'required|string|unique:clientes,cpf',
+                'nome' => 'required|string'
+            ]);
+        } catch(ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'mensagem' => 'Algum campo da requisição não é valido!'
+            ], 422);
+        }
 
         $clienteService = new  ClienteService();
 
@@ -29,9 +37,16 @@ class ClienteController extends Controller
 
     public function editar(Request $request)
     {
-        $request->validate([
-            'cpf' => 'required|string'
-        ]);
+        try {
+            $request->validate([
+                'cpf' => 'required|string'
+            ]);
+        } catch(ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'mensagem' => 'Algum campo da requisição não é valido!'
+            ], 422);
+        }
 
         $clienteService = new  ClienteService();
 
@@ -40,10 +55,17 @@ class ClienteController extends Controller
 
     public function deletar(Request $request)
     {
-        $request->validate([
-            'cpf' => 'required|array',
-            'cpf.*' => 'string',
-        ]);
+        try {
+            $request->validate([
+                'cpf' => 'required|array',
+                'cpf.*' => 'string',
+            ]);
+        } catch(ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'mensagem' => 'Algum campo da requisição não é valido!'
+            ], 422);
+        }
 
         $clienteService = new  ClienteService();
 
@@ -52,10 +74,16 @@ class ClienteController extends Controller
 
     public function buscarVendas(Request $request)
     {
-
-        $request->validate([
-            'cpf' => 'required|string'
-        ]);
+        try {
+            $request->validate([
+                'cpf' => 'required|string'
+            ]);
+        } catch(ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'mensagem' => 'Algum campo da requisição não é valido!'
+            ], 422);
+        }
 
         $vendaService = new VendaService();
 

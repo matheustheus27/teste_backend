@@ -3,18 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Services\ProdutoService;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
     public function cadastrar(Request $request)
     {
-        $request->validate([
-            'cod' => 'required|int|unique:produtos,cod',
-            'nome' => 'required|string',
-            'descricao' => 'required|string',
-            'preco' => 'required|numeric',
-        ]);
+        try {
+            $request->validate([
+                'cod' => 'required|int|unique:produtos,cod',
+                'nome' => 'required|string',
+                'descricao' => 'required|string',
+                'preco' => 'required|numeric',
+            ]);
+        } catch(ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'mensagem' => 'Algum campo da requisição não é valido!'
+            ], 422);
+        }
 
         $produtoService = new  ProdutoService();
 
@@ -30,9 +38,16 @@ class ProdutoController extends Controller
 
     public function editar(Request $request)
     {
-        $request->validate([
-            'cod' => 'required|int'
-        ]);
+        try {
+            $request->validate([
+                'cod' => 'required|int'
+            ]);
+        } catch(ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'mensagem' => 'Algum campo da requisição não é valido!'
+            ], 422);
+        }
 
         $produtoService = new  ProdutoService();
 
@@ -41,10 +56,17 @@ class ProdutoController extends Controller
 
     public function deletar(Request $request)
     {
-        $request->validate([
-            'cod' => 'required|array',
-            'cod.*' => 'int',
-        ]);
+        try {
+            $request->validate([
+                'cod' => 'required|array',
+                'cod.*' => 'int',
+            ]);
+        } catch(ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'mensagem' => 'Algum campo da requisição não é valido!'
+            ], 422);
+        }
 
         $produtoService = new  ProdutoService();
 
