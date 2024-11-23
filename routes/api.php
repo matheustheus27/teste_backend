@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VendaController;
@@ -13,10 +14,10 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('usuario')->group(function() {
     Route::put('cadastrar', [UsuarioController::class, 'cadastrar']);
-    Route::post('login', [UsuarioController::class, 'login']);
+    Route::post('login', [UsuarioController::class, 'login'])->name('login');
 });
 
-Route::prefix('cliente')->group(function() {
+Route::middleware('auth:api')->prefix('cliente')->group(function() {
     Route::put('cadastrar', [ClienteController::class, 'cadastrar']);
     Route::get('buscar', [ClienteController::class, 'buscar']);
     Route::put('editar', [ClienteController::class, 'editar']);
@@ -25,17 +26,17 @@ Route::prefix('cliente')->group(function() {
     Route::post('buscarvendas', [ClienteController::class, 'buscarVendas']);
 });
 
-Route::prefix('produto')->group(function() {
+Route::middleware('auth:api')->prefix('produto')->group(function() {
     Route::put('cadastrar', [ProdutoController::class, 'cadastrar']);
     Route::get('buscar', [ProdutoController::class, 'buscar']);
     Route::put('editar', [ProdutoController::class, 'editar']);
     Route::delete('deletar', [ProdutoController::class, 'deletar']);
 });
 
-Route::prefix('venda')->group(function() {
+Route::middleware('auth:api')->prefix('venda')->group(function() {
     Route::put('cadastrar', [VendaController::class, 'cadastrar']);
 });
 
-Route::get('/', function () {
-    return response()->json(['status' => true, 'mensagem' => 'Tudo Ok!'], 200);
+Route::middleware('auth:api')->prefix('endereco')->group(function() {
+    Route::put('cadastrar', [EnderecoController::class, 'cadastrar']);
 });

@@ -47,6 +47,12 @@ class UsuarioService
             ], 500);
         }
 
-        return response()->json(compact('token'));
+        return response()->json([
+            'dados' => [
+                'token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ]
+        ]);
     }
 }
