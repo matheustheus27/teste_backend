@@ -4,22 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Services\ClienteService;
 use App\Services\VendaService;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
 {
     public function cadastrar(Request $request)
     {
-        try {
-            $request->validate([
-                'cpf' => 'required|string|unique:clientes,cpf',
-                'nome' => 'required|string'
-            ]);
-        } catch(ValidationException $e) {
+        $validacao = Validator::make($request->all(), [
+            'cpf' => 'required|string|unique:clientes,cpf',
+            'nome' => 'required|string'
+        ],[
+            'cpf.required' => 'O campo cpf é obrigatório.',
+            'cpf.string' => 'O campo cpf deve ser do tipo texto.',
+            'cpf.unique' => 'Cliente já cadastrado no sistema.',
+            'nome.required' => 'O campo nome é obrigatório.',
+            'nome.string' => 'O campo nome deve ser do tipo texto.',
+        ]);
+
+        if ($validacao->fails()) {
             return response()->json([
                 'status' => false,
-                'mensagem' => 'Algum campo da requisição não é valido!'
+                'mensagem' => 'Erro de validação.',
+                'errors' => $validacao->errors(),
             ], 422);
         }
 
@@ -37,14 +44,18 @@ class ClienteController extends Controller
 
     public function editar(Request $request)
     {
-        try {
-            $request->validate([
-                'cpf' => 'required|string'
-            ]);
-        } catch(ValidationException $e) {
+        $validacao = Validator::make($request->all(), [
+            'cpf' => 'required|string'
+        ],[
+            'cpf.required' => 'O campo cpf é obrigatório.',
+            'cpf.string' => 'O campo cpf deve ser do tipo texto.',
+        ]);
+
+        if ($validacao->fails()) {
             return response()->json([
                 'status' => false,
-                'mensagem' => 'Algum campo da requisição não é valido!'
+                'mensagem' => 'Erro de validação.',
+                'errors' => $validacao->errors(),
             ], 422);
         }
 
@@ -55,15 +66,20 @@ class ClienteController extends Controller
 
     public function deletar(Request $request)
     {
-        try {
-            $request->validate([
-                'cpf' => 'required|array',
-                'cpf.*' => 'string',
-            ]);
-        } catch(ValidationException $e) {
+        $validacao = Validator::make($request->all(), [
+            'cpf' => 'required|array',
+            'cpf.*' => 'string',
+        ],[
+            'cpf.required' => 'O campo cpf é obrigatório.',
+            'cpf.array' => 'O campo cpf deve ser uma lista.',
+            'cpf.*.string' => 'O campo cpf deve ser do tipo texto.',
+        ]);
+
+        if ($validacao->fails()) {
             return response()->json([
                 'status' => false,
-                'mensagem' => 'Algum campo da requisição não é valido!'
+                'mensagem' => 'Erro de validação.',
+                'errors' => $validacao->errors(),
             ], 422);
         }
 
@@ -74,14 +90,18 @@ class ClienteController extends Controller
 
     public function buscarVendas(Request $request)
     {
-        try {
-            $request->validate([
-                'cpf' => 'required|string'
-            ]);
-        } catch(ValidationException $e) {
+        $validacao = Validator::make($request->all(), [
+            'cpf' => 'required|string'
+        ],[
+            'cpf.required' => 'O campo cpf é obrigatório.',
+            'cpf.string' => 'O campo cpf deve ser do tipo texto.',
+        ]);
+
+        if ($validacao->fails()) {
             return response()->json([
                 'status' => false,
-                'mensagem' => 'Algum campo da requisição não é valido!'
+                'mensagem' => 'Erro de validação.',
+                'errors' => $validacao->errors(),
             ], 422);
         }
 
